@@ -24,7 +24,7 @@ def setup(
     
     
     project.set_source("git://github.com/daniels290813/jiggy.git#main", pull_at_runtime=False)
-    pipeline_fn = project.set_function('untitled.py',name='hello', kind='job', image='mlrun/mlrun', handler='hello')
+    pipeline_fn = project.set_function('untitled.py',name='hello', kind='job', image='mlrun/mlrun-kfp', handler='hello')
     pipeline_fn.save()
     project.set_function(f"db://{project.name}/hello", name="hello")
     project.save()
