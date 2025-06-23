@@ -1,0 +1,37 @@
+kind: project
+status:
+  state: online
+spec:
+  build:
+    image: .mlrun-project-image-test-pipeline
+    base_image: mlrun/mlrun
+  owner: admin
+  functions:
+  - url: db://test-pipeline/hello
+    name: hello
+    kind: job
+  - url: db://test-pipeline/hello
+    name: data-prep
+    kind: job
+  desired_state: online
+  conda: ''
+  workflows:
+  - code: "\n\nimport mlrun\nfrom kfp import dsl\nfrom src.heelm import heelm\n\n\n\
+      @dsl.pipeline(\n    name=\"hey\",\n    description=\"Dede\",\n)\ndef pipeline(vector_name=\"\
+      hey\"):\n    project=mlrun.get_current_project()  \n    \n    feature_selection_func\
+      \ = project.get_function(\"hello\")\n    feature_selection_run = project.run_function(\n\
+      \        feature_selection_func,\n        name=\"hello\")\n"
+    name: my_workflow
+    image: .mlrun-project-image-test-pipeline
+  - code: "\n\nimport mlrun\nfrom kfp import dsl\n\n@dsl.pipeline(\n    name=\"hey\"\
+      ,\n    description=\"Dede\",\n)\ndef pipeline(vector_name):\n    project=mlrun.get_current_project()\
+      \  \n    \n    feature_selection_func = project.get_function(\"hello\")\n  \
+      \  feature_selection_run = project.run_function(\n        feature_selection_func,\n\
+      \        name=\"hello\")\n"
+    name: my_workflow2
+  source: git://github.com/daniels290813/jiggy.git#main
+  default_image: .mlrun-project-image-test-pipeline
+  load_source_on_run: true
+metadata:
+  name: test-pipeline
+  created: '2025-06-22T06:37:33.141000'
