@@ -2,7 +2,7 @@
 
 import mlrun
 from kfp import dsl
-from src.heelm import faa
+from src.heelm import heelm
 
 
 @dsl.pipeline(
